@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React!</title>
+    <script src="build/react.js"></script>
+    <script src="build/JSXTransformer.js"></script>
+  </head>
+  <body>
+    <div id="example"></div>
+    
+    <script type="text/jsx">
+
+    var Choice = React.createClass({
+
+        getDefaultProps: function(){
+          return null;
+        },
+
+        getInitialState: function(){
+          return null;
+        },
+
+        handleChanged: function(event){
+          var checked = event.target.checked;
+          if(checked){
+            this.props.onChanged(this.props.value);  
+          }
+        },
+
+        render: function(){
+          return <div>  
+           <label htmlFor={this.props.id}>{this.props.label}</label> 
+
+           <input id={this.props.id} name={this.props.name} type="radio" value={this.props.value} checked={this.props.checked} onChange={this.handleChanged}/> 
+          </div>
+        }
+
+    });
+
+    var Question = React.createClass({
+
+      getDefaultProps: function(){
+          return null;
+      },
+ 
+      getInitialState: function(){
+        return {
+          id: this.props.id,
+          value: this.props.value
+        }
+      },
+
+      handleChanged: function(value){
+        //console.log(v);
+        this.setState({value:value});
+      },
+
+      render: function(){
+
+        return <div >
+                  <div>value:{this.state.value}</div>
+                  <hr/>
+                  <Choice id={this.state.id+"-c1"}  value="1" label="选项1" checked={this.state.value == "1"} onChanged={this.handleChanged} pvalue={this.state.value}/>
+                  <Choice id={this.state.id+"-c2"}  value="2" label="选项2" checked={this.state.value == "2"} onChanged={this.handleChanged} pvalue={this.state.value}/>
+
+                  <Choice id={this.state.id+"-c3"}  value="3" label="选项3" checked={this.state.value == "3"} onChanged={this.handleChanged} pvalue={this.state.value}/>
+              </div>;
+      }
+    });
+
+      React.render(
+        <Question id="q1" value="1"/>,
+        document.getElementById('example')
+      );
+    </script>
+  </body>
+</html>
